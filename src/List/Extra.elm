@@ -244,17 +244,12 @@ More efficient than calling `List.reverse (List.range lo hi)`
 
 -}
 reverseRange : Int -> Int -> List Int
-reverseRange =
-    let
-        helper : List Int -> Int -> Int -> List Int
-        helper list high low =
-            if high >= low then
-                helper (low :: list) high (low + 1)
+reverseRange high low =
+    if high >= low then
+        high :: reverseRange (high - 1) low
 
-            else
-                list
-    in
-    helper []
+    else
+        []
 
 
 {-| Decompose a list into its head and tail. If the list is empty, return `Nothing`. Otherwise, return `Just (x, xs)`, where `x` is head and `xs` is tail.
