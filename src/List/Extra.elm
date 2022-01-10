@@ -1961,28 +1961,30 @@ groupsOfWithStep size step list =
         []
 
     else
+        groupsOfWithStepHelper size step list
+
+
+groupsOfWithStepHelper : Int -> Int -> List a -> List (List a)
+groupsOfWithStepHelper size step list =
+    if List.isEmpty list then
+        []
+
+    else
         let
-            go : List a -> List (List a) -> List (List a)
-            go xs acc =
-                if List.isEmpty xs then
-                    List.reverse acc
-
-                else
-                    let
-                        thisGroup =
-                            List.take size xs
-                    in
-                    if size == List.length thisGroup then
-                        let
-                            rest =
-                                List.drop step xs
-                        in
-                        go rest (thisGroup :: acc)
-
-                    else
-                        List.reverse acc
+            thisGroup : List a
+            thisGroup =
+                List.take size list
         in
-        go list []
+        if size == List.length thisGroup then
+            let
+                rest : List a
+                rest =
+                    List.drop step list
+            in
+            thisGroup :: groupsOfWithStepHelper size step rest
+
+        else
+            []
 
 
 {-| `groupsOfVarying ns` takes `n` elements from a list for each `n` in `ns`, splitting the list into variably sized segments
