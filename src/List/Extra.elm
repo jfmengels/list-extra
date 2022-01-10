@@ -957,12 +957,21 @@ removeAt index l =
         l
 
     else
-        case drop index l of
-            [] ->
-                l
+        removeAtHelper index l
 
-            _ :: rest ->
-                take index l ++ rest
+
+removeAtHelper : Int -> List a -> List a
+removeAtHelper index list =
+    case list of
+        [] ->
+            []
+
+        x :: xs ->
+            if index == 0 then
+                xs
+
+            else
+                x :: removeAtHelper (index - 1) xs
 
 
 {-| Remove an element at an index that satisfies a predicate.
