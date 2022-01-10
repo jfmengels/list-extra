@@ -2052,18 +2052,16 @@ greedyGroupsOfWithStep size step list =
         []
 
     else
-        let
-            go : List a -> List (List a) -> List (List a)
-            go xs acc =
-                if List.isEmpty xs then
-                    List.reverse acc
+        greedyGroupsOfWithStepHelper size step list
 
-                else
-                    go
-                        (List.drop step xs)
-                        (List.take size xs :: acc)
-        in
-        go list []
+
+greedyGroupsOfWithStepHelper : Int -> Int -> List a -> List (List a)
+greedyGroupsOfWithStepHelper size step list =
+    if List.isEmpty list then
+        []
+
+    else
+        List.take size list :: greedyGroupsOfWithStepHelper size step (List.drop step list)
 
 
 {-| Group equal elements together. This is different from `group` as each sublist
