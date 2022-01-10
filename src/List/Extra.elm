@@ -1693,18 +1693,13 @@ inits =
 
 -}
 tails : List a -> List (List a)
-tails =
-    foldr tailsHelp [ [] ]
-
-
-tailsHelp : a -> List (List a) -> List (List a)
-tailsHelp e list =
+tails list =
     case list of
-        x :: xs ->
-            (e :: x) :: x :: xs
-
         [] ->
-            []
+            [ [] ]
+
+        _ :: xs ->
+            list :: tails xs
 
 
 {-| Return all combinations in the form of (element, rest of the list). Read [Haskell Libraries proposal](https://mail.haskell.org/pipermail/libraries/2008-February/009270.html) for further ideas on how to use this function.
