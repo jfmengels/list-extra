@@ -827,17 +827,16 @@ updateAt index fn list =
         list
 
     else
-        let
-            tail : List a
-            tail =
-                List.drop index list
-        in
-        case tail of
+        case list of
             x :: xs ->
-                List.take index list ++ fn x :: xs
+                if index == 0 then
+                    fn x :: xs
+
+                else
+                    x :: updateAt (index - 1) fn xs
 
             [] ->
-                list
+                []
 
 
 {-| Replace a value at an index that satisfies a predicate, by calling an update function.
