@@ -664,8 +664,8 @@ elemIndices x =
 
 -}
 findIndex : (a -> Bool) -> List a -> Maybe Int
-findIndex =
-    findIndexHelp 0
+findIndex predicate list =
+    findIndexHelp 0 predicate list
 
 
 findIndexHelp : Int -> (a -> Bool) -> List a -> Maybe Int
