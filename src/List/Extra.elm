@@ -174,15 +174,16 @@ iterate f x =
 -}
 initialize : Int -> (Int -> a) -> List a
 initialize n f =
-    let
-        step i acc =
-            if i < 0 then
-                acc
+    initializeHelper 0 n f
 
-            else
-                step (i - 1) (f i :: acc)
-    in
-    step (n - 1) []
+
+initializeHelper : Int -> Int -> (Int -> a) -> List a
+initializeHelper i n f =
+    if i < n then
+        f i :: initializeHelper (i + 1) n f
+
+    else
+        []
 
 
 {-| Creates a list of the given length whose elements are obtained by cycling
