@@ -1125,21 +1125,16 @@ If one list runs out of items, append the items from the remaining list.
 
 -}
 interweave : List a -> List a -> List a
-interweave =
-    interweaveHelp []
-
-
-interweaveHelp : List a -> List a -> List a -> List a
-interweaveHelp acc list1 list2 =
+interweave list1 list2 =
     case ( list1, list2 ) of
         ( x :: xs, y :: ys ) ->
-            interweaveHelp (y :: x :: acc) xs ys
+            x :: y :: interweave xs ys
 
         ( [], _ ) ->
-            reverseAppend acc list2
+            list2
 
         ( _, [] ) ->
-            reverseAppend acc list1
+            list1
 
 
 {-| Return the cartesian product of a list of lists.
