@@ -397,21 +397,17 @@ minimumWith comparator list =
 {-| Take elements in order as long as the predicate evaluates to `True`
 -}
 takeWhile : (a -> Bool) -> List a -> List a
-takeWhile predicate =
-    let
-        takeWhileMemo memo list =
-            case list of
-                [] ->
-                    List.reverse memo
+takeWhile predicate list =
+    case list of
+        [] ->
+            []
 
-                x :: xs ->
-                    if predicate x then
-                        takeWhileMemo (x :: memo) xs
+        x :: xs ->
+            if predicate x then
+                x :: takeWhile predicate xs
 
-                    else
-                        List.reverse memo
-    in
-    takeWhileMemo []
+            else
+                []
 
 
 {-| Drop elements in order as long as the predicate evaluates to `True`
