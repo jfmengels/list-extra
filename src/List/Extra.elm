@@ -112,11 +112,18 @@ init items =
         [] ->
             Nothing
 
-        nonEmptyList ->
-            nonEmptyList
-                |> List.reverse
-                |> List.tail
-                |> Maybe.map List.reverse
+        _ ->
+            Just (initHelper items)
+
+
+initHelper : List a -> List a
+initHelper items =
+    case items of
+        x :: ((_ :: _) as xs) ->
+            x :: initHelper xs
+
+        _ ->
+            []
 
 
 {-| Returns `Just` the element at the given index in the list,
