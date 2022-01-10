@@ -2001,21 +2001,16 @@ groupsOfWithStepHelper size step list =
 -}
 groupsOfVarying : List Int -> List a -> List (List a)
 groupsOfVarying listOfLengths list =
-    groupsOfVarying_ listOfLengths list []
-
-
-groupsOfVarying_ : List Int -> List a -> List (List a) -> List (List a)
-groupsOfVarying_ listOfLengths list accu =
     case ( listOfLengths, list ) of
         ( length :: tailLengths, _ :: _ ) ->
             let
                 ( head, tail ) =
                     splitAt length list
             in
-            groupsOfVarying_ tailLengths tail (head :: accu)
+            head :: groupsOfVarying tailLengths tail
 
         _ ->
-            List.reverse accu
+            []
 
 
 {-| Greedily split list into groups of length `size`. The last group of
