@@ -434,14 +434,14 @@ dropWhile predicate list =
 -}
 unique : List a -> List a
 unique list =
-    uniqueHelp identity [] list []
+    uniqueHelp identity [] list
 
 
 {-| Drop duplicates where what is considered to be a duplicate is the result of first applying the supplied function to the elements of the list.
 -}
 uniqueBy : (a -> b) -> List a -> List a
 uniqueBy f list =
-    uniqueHelp f [] list []
+    uniqueHelp f [] list
 
 
 {-| Indicate if list has duplicate values.
@@ -484,11 +484,11 @@ allDifferentByHelper f existing remaining =
                 allDifferentByHelper f (computedFirst :: existing) xs
 
 
-uniqueHelp : (a -> b) -> List b -> List a -> List a -> List a
-uniqueHelp f existing remaining accumulator =
+uniqueHelp : (a -> b) -> List b -> List a -> List a
+uniqueHelp f existing remaining =
     case remaining of
         [] ->
-            List.reverse accumulator
+            []
 
         first :: rest ->
             let
@@ -496,10 +496,10 @@ uniqueHelp f existing remaining accumulator =
                     f first
             in
             if List.member computedFirst existing then
-                uniqueHelp f existing rest accumulator
+                uniqueHelp f existing rest
 
             else
-                uniqueHelp f (computedFirst :: existing) rest (first :: accumulator)
+                first :: uniqueHelp f (computedFirst :: existing) rest
 
 
 {-| Map functions taking multiple arguments over multiple lists. Each list should be of the same length.
