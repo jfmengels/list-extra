@@ -983,16 +983,22 @@ See also `removeAt`.
 
 -}
 removeIfIndex : (Int -> Bool) -> List a -> List a
-removeIfIndex predicate =
-    indexedFoldr
-        (\index item acc ->
+removeIfIndex predicate list =
+    removeIfIndexHelp predicate 0 list
+
+
+removeIfIndexHelp : (Int -> Bool) -> Int -> List a -> List a
+removeIfIndexHelp predicate index list =
+    case list of
+        [] ->
+            []
+
+        x :: xs ->
             if predicate index then
-                acc
+                removeIfIndexHelp predicate (index + 1) xs
 
             else
-                item :: acc
-        )
-        []
+                x :: removeIfIndexHelp predicate (index + 1) xs
 
 
 {-| Take a predicate and a list, and return a list that contains elements which fails to satisfy the predicate.
