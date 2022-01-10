@@ -2102,21 +2102,16 @@ elements within each group.
 -}
 gatherWith : (a -> a -> Bool) -> List a -> List ( a, List a )
 gatherWith testFn list =
-    let
-        helper : List a -> List ( a, List a ) -> List ( a, List a )
-        helper scattered gathered =
-            case scattered of
-                [] ->
-                    List.reverse gathered
+    case list of
+        [] ->
+            []
 
-                toGather :: population ->
-                    let
-                        ( gathering, remaining ) =
-                            List.partition (testFn toGather) population
-                    in
-                    helper remaining (( toGather, gathering ) :: gathered)
-    in
-    helper list []
+        toGather :: population ->
+            let
+                ( gathering, remaining ) =
+                    List.partition (testFn toGather) population
+            in
+            ( toGather, gathering ) :: gatherWith testFn remaining
 
 
 {-| Performs an inner join, combining data items from both lists if they match by their respective key functions.
