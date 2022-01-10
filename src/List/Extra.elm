@@ -863,22 +863,17 @@ updateIfIndex predicate update list =
 {-| Remove the first occurrence of a value from a list.
 -}
 remove : a -> List a -> List a
-remove x xs =
-    removeHelp xs x xs []
-
-
-removeHelp : List a -> a -> List a -> List a -> List a
-removeHelp list x xs previousElements =
-    case xs of
+remove target list =
+    case list of
         [] ->
-            list
+            []
 
-        y :: ys ->
-            if x == y then
-                reverseAppend previousElements ys
+        x :: xs ->
+            if x == target then
+                xs
 
             else
-                removeHelp list x ys (y :: previousElements)
+                x :: remove target xs
 
 
 {-| Set a value in a list by index. Return the original list if the index is out of range.
