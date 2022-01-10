@@ -1268,19 +1268,23 @@ indexedFoldr func acc list =
 
 -}
 scanl : (a -> b -> b) -> b -> List a -> List b
-scanl f b xs =
-    let
-        scan1 x accAcc =
-            case accAcc of
-                acc :: _ ->
-                    f x acc :: accAcc
+scanl f acc list =
+    acc :: scanlHelper f acc list
 
-                [] ->
-                    []
 
-        -- impossible
-    in
-    reverse (foldl scan1 [ b ] xs)
+scanlHelper : (a -> b -> b) -> b -> List a -> List b
+scanlHelper f acc list =
+    case list of
+        [] ->
+            []
+
+        x :: xs ->
+            let
+                newAcc : b
+                newAcc =
+                    f x acc
+            in
+            newAcc :: scanlHelper f newAcc xs
 
 
 {-| `scanl1` is a variant of `scanl` that has no starting value argument.
