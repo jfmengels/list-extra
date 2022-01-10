@@ -455,14 +455,33 @@ uniqueBy f list =
 -}
 allDifferent : List a -> Bool
 allDifferent list =
-    allDifferentBy identity list
+    allDifferentByHelper identity [] list
 
 
 {-| Indicate if list has duplicate values when supplied function are applied on each values.
 -}
 allDifferentBy : (a -> b) -> List a -> Bool
 allDifferentBy f list =
-    List.length list == List.length (uniqueBy f list)
+    allDifferentByHelper f [] list
+
+
+allDifferentByHelper : (a -> b) -> List b -> List a -> Bool
+allDifferentByHelper f existing remaining =
+    case remaining of
+        [] ->
+            True
+
+        x :: xs ->
+            let
+                computedFirst : b
+                computedFirst =
+                    f x
+            in
+            if List.member computedFirst existing then
+                False
+
+            else
+                allDifferentByHelper f (computedFirst :: existing) xs
 
 
 uniqueHelp : (a -> b) -> List b -> List a -> List a -> List a
