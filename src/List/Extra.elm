@@ -2164,8 +2164,8 @@ joinOn selectFn aKeyFn bKeyFn aList bList =
                 |> List.sortBy Tuple.first
                 |> gatherEqualsBy Tuple.first
 
-        helper : List ( ( comparable, a ), List ( comparable, a ) ) -> List ( ( comparable, b ), List ( comparable, b ) ) -> List c -> List c
-        helper aInp bInp result =
+        helper : List ( ( comparable, a ), List ( comparable, a ) ) -> List ( ( comparable, b ), List ( comparable, b ) ) -> List c
+        helper aInp bInp =
             case ( aInp, bInp ) of
                 ( ( ( aKey, a ), ass ) :: restAs, ( ( bKey, b ), bss ) :: restBs ) ->
                     if aKey == bKey then
@@ -2181,15 +2181,15 @@ joinOn selectFn aKeyFn bKeyFn aList bList =
                                     )
                                     (( aKey, a ) :: ass)
                         in
-                        helper restAs restBs (prod ++ result)
+                        helper restAs restBs ++ prod
 
                     else if aKey < bKey then
-                        helper restAs bInp result
+                        helper restAs bInp
 
                     else
-                        helper aInp restBs result
+                        helper aInp restBs
 
                 _ ->
-                    result
+                    []
     in
-    helper aListWithKeys bListWithKeys []
+    helper aListWithKeys bListWithKeys
